@@ -1,6 +1,6 @@
 FROM centos:centos6
 
-RUN update -y && \
+RUN yum update -y && \
     yum -y install wget && \
     yum clean all
 
