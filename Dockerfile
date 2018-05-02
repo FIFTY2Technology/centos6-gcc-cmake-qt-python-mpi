@@ -31,7 +31,6 @@ RUN source /opt/rh/devtoolset-3/enable && \
     ../mpich-3.2/configure -prefix=${current_dir}/mpich-3.2-install |& tee c.txt && \
     make -s |& tee m.txt && \
     make install |& tee mi.txt && \
-    export PATH=${current_dir}/mpich-3.2-install/bin:$PATH && \
     popd && \
     popd && \
     rm -rf /tmp/mpi_download
@@ -45,7 +44,7 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
     wget -nv 'https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tgz' && \
     tar -xzf Python-3.5.3.tgz && \
     cd Python-3.5.3 && \
-    ./configure --prefix=/opt/Python35/ && \
+    ./configure --prefix=/opt/Python35/ --enable-shared && \
     make -s && \
     make altinstall && \
     popd && \
@@ -64,6 +63,9 @@ RUN yum -y install mesa-libGL-devel fontconfig && \
     rm -rf /tmp/qt_download && \
     yum clean all
 
-# Finally, we need lsb_release.
-RUN yum -y install redhat-lsb-core && \
+# Update the path such that mpi is found.
+ENV PATH="/mpich-3.2-install/bin:${PATH}"
+
+# Finally, we need lsb_release and git for our cmake file.
+RUN yum -y install redhat-lsb-core git && \
     yum clean all
