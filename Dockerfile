@@ -51,6 +51,23 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
     rm -rf /tmp/python_download && \
     yum clean all
 
+# Download and install Python 2.7.
+RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \
+    source /opt/rh/devtoolset-3/enable && \
+    mkdir -p /opt/Python27 && \
+    mkdir -p /tmp/python_download && \
+    pushd /tmp/python_download && \
+    wget -nv 'https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz' && \
+    tar -xzf Python-2.7.13.tgz && \
+    cd Python-2.7.13 && \
+    ./configure --prefix=/opt/Python27/ --enable-shared --enable-unicode=ucs4 && \
+    make -s && \
+    make altinstall && \
+    popd && \
+    rm -rf /tmp/python_download && \
+    yum clean all
+
+
 # Download and install Qt 5.7.
 ADD qt-installer-noninteractive.qs /tmp/qt_download/script.qs
 RUN yum -y install mesa-libGL-devel fontconfig && \
