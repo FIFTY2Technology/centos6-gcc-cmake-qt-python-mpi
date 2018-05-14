@@ -1,7 +1,8 @@
 FROM centos:centos6.6
 
+# Download essentials for the following commands.
 RUN yum update -y && \
-    yum -y install wget && \
+    yum -y install wget tar && \
     yum clean all
 
 # Download and install newer gcc compiler.
@@ -34,7 +35,6 @@ RUN source /opt/rh/devtoolset-7/enable && \
     popd && \
     popd && \
     rm -rf /tmp/mpi_download
-
 # Update the path such that mpi is found.
 ENV PATH="/mpich-3.2-install/bin:${PATH}"
 
@@ -53,6 +53,8 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
     popd && \
     rm -rf /tmp/python_download && \
     yum clean all
+# Update the library search path such that the so is found by python.
+ENV LD_LIBRARY_PATH="/opt/Python35/lib:${LD_LIBRARY_PATH}"
 
 # Download and install Python 2.7.
 RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \
@@ -69,7 +71,8 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
     popd && \
     rm -rf /tmp/python_download && \
     yum clean all
-
+# Update the library search path such that the so is found by python.
+ENV LD_LIBRARY_PATH="/opt/Python27/lib:${LD_LIBRARY_PATH}"
 
 # Download and install Qt 5.7.
 ADD qt-installer-noninteractive.qs /tmp/qt_download/script.qs
