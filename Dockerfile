@@ -1,4 +1,4 @@
-FROM centos:centos6
+FROM centos:centos6.6
 
 RUN yum update -y && \
     yum -y install wget && \
@@ -6,8 +6,8 @@ RUN yum update -y && \
 
 # Download and install newer gcc compiler.
 RUN yum -y install centos-release-scl && \
-    yum -y install devtoolset-3-toolchain && \
-    scl enable devtoolset-3 bash && \
+    yum -y install devtoolset-7-toolchain && \
+    scl enable devtoolset-7 bash && \
     yum clean all
 
 # Download and install latest cmake.
@@ -19,7 +19,7 @@ RUN mkdir -p /tmp/cmake_download && \
     rm -rf /tmp/cmake_download
 
 # Download and install mpi.
-RUN source /opt/rh/devtoolset-3/enable && \
+RUN source /opt/rh/devtoolset-7/enable && \
     export current_dir=$pwd && \
     mkdir ${current_dir}/mpich-3.2-install && \
     mkdir -p /tmp/mpi_download && \
@@ -35,9 +35,12 @@ RUN source /opt/rh/devtoolset-3/enable && \
     popd && \
     rm -rf /tmp/mpi_download
 
+# Update the path such that mpi is found.
+ENV PATH="/mpich-3.2-install/bin:${PATH}"
+
 # Download and install Python 3.5.
 RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \
-    source /opt/rh/devtoolset-3/enable && \
+    source /opt/rh/devtoolset-7/enable && \
     mkdir -p /opt/Python35 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
@@ -53,7 +56,7 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
 
 # Download and install Python 2.7.
 RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \
-    source /opt/rh/devtoolset-3/enable && \
+    source /opt/rh/devtoolset-7/enable && \
     mkdir -p /opt/Python27 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
@@ -79,9 +82,6 @@ RUN yum -y install mesa-libGL-devel fontconfig && \
     popd && \
     rm -rf /tmp/qt_download && \
     yum clean all
-
-# Update the path such that mpi is found.
-ENV PATH="/mpich-3.2-install/bin:${PATH}"
 
 # Finally, we need lsb_release and git for our cmake file.
 RUN yum -y install redhat-lsb-core git && \
