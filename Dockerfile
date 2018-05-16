@@ -52,6 +52,7 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
     make altinstall && \
     popd && \
     rm -rf /tmp/python_download && \
+    /opt/Python35/bin/pip3.5 install six progressbar2 wheel && \
     yum clean all
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python35/lib:${LD_LIBRARY_PATH}"
@@ -70,6 +71,8 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
     make altinstall && \
     popd && \
     rm -rf /tmp/python_download && \
+    /opt/Python27/bin/python2.7 -m ensurepip --upgrade && \
+    /opt/Python27/bin/pip2.7 install wheel && \
     yum clean all
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python27/lib:${LD_LIBRARY_PATH}"
