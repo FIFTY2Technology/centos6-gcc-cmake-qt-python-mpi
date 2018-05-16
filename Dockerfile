@@ -52,10 +52,11 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
     make altinstall && \
     popd && \
     rm -rf /tmp/python_download && \
-    /opt/Python35/bin/pip3.5 install six progressbar2 wheel && \
     yum clean all
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python35/lib:${LD_LIBRARY_PATH}"
+# Install pip packages for Python 3.5.
+RUN /opt/Python35/bin/pip3.5 install six progressbar2 wheel
 
 # Download and install Python 2.7.
 RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \
@@ -71,11 +72,12 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
     make altinstall && \
     popd && \
     rm -rf /tmp/python_download && \
-    /opt/Python27/bin/python2.7 -m ensurepip --upgrade && \
-    /opt/Python27/bin/pip2.7 install wheel && \
     yum clean all
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python27/lib:${LD_LIBRARY_PATH}"
+# Install pip packages for Python 2.7.
+RUN /opt/Python27/bin/python2.7 -m ensurepip --upgrade && \
+    /opt/Python27/bin/pip2.7 install wheel
 
 # Download and install Qt 5.7.
 ADD qt-installer-noninteractive.qs /tmp/qt_download/script.qs
