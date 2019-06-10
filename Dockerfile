@@ -5,6 +5,12 @@ RUN yum update -y && \
     yum -y install wget tar && \
     yum clean all
 
+# Fix for rpm issue.
+# See https://medium.com/@fkei/docker-rpmdb-checksum-is-invalid-dcdpt-pkg-checksums-xxxx-amzn1-u-%E5%AF%BE%E5%87%A6%E6%B3%95-289b8c58d4a3
+# and https://github.com/CentOS/sig-cloud-instance-images/issues/15
+RUN rpm --rebuilddb && \
+    yum install -y yum-plugin-ovl
+
 # Download and install newer gcc compiler.
 RUN yum -y install centos-release-scl && \
     yum -y install devtoolset-7-toolchain && \
@@ -14,8 +20,8 @@ RUN yum -y install centos-release-scl && \
 # Download and install latest cmake.
 RUN mkdir -p /tmp/cmake_download && \
     pushd /tmp/cmake_download && \
-    wget -nv 'https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh' && \
-    bash cmake-3.10.2-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir && \
+    wget -nv 'https://github.com/Kitware/CMake/releases/download/v3.14.5/cmake-3.14.5-Linux-x86_64.sh' && \
+    bash cmake-3.14.5-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir && \
     popd && \
     rm -rf /tmp/cmake_download
 
