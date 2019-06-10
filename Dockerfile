@@ -9,7 +9,8 @@ RUN yum update -y && \
 # See https://medium.com/@fkei/docker-rpmdb-checksum-is-invalid-dcdpt-pkg-checksums-xxxx-amzn1-u-%E5%AF%BE%E5%87%A6%E6%B3%95-289b8c58d4a3
 # and https://github.com/CentOS/sig-cloud-instance-images/issues/15
 RUN rpm --rebuilddb && \
-    yum install -y yum-plugin-ovl
+    yum install -y yum-plugin-ovl && \
+    yum clean all
 
 # Download and install newer gcc compiler.
 RUN yum -y install centos-release-scl && \
