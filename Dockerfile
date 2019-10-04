@@ -38,15 +38,17 @@ RUN source /opt/rh/devtoolset-7/enable && \
 # Update the path such that mpi is found.
 ENV PATH="/mpich-3.2-install/bin:${PATH}"
 
+# Download and install Python build dependencies.
+RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel libffi libffi-devel
+
 # Download and install Python 3.5.
-RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \
-    source /opt/rh/devtoolset-7/enable && \
+RUN source /opt/rh/devtoolset-7/enable && \
     mkdir -p /opt/Python35 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tgz' && \
-    tar -xzf Python-3.5.3.tgz && \
-    cd Python-3.5.3 && \
+    wget -nv 'https://www.python.org/ftp/python/3.5.7/Python-3.5.7.tgz' && \
+    tar -xzf Python-3.5.7.tgz && \
+    cd Python-3.5.7 && \
     ./configure --prefix=/opt/Python35/ --enable-shared && \
     make -s && \
     make altinstall && \
@@ -58,15 +60,66 @@ ENV LD_LIBRARY_PATH="/opt/Python35/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.5.
 RUN /opt/Python35/bin/pip3.5 install six progressbar2 wheel
 
+
+# Download and install Python 3.6.
+RUN source /opt/rh/devtoolset-7/enable && \
+    mkdir -p /opt/Python36 && \
+    mkdir -p /tmp/python_download && \
+    pushd /tmp/python_download && \
+    wget -nv 'https://www.python.org/ftp/python/3.6.9/Python-3.6.9.tgz' && \
+    tar -xzf Python-3.6.9.tgz && \
+    cd Python-3.6.9 && \
+    ./configure --prefix=/opt/Python36/ --enable-shared && \
+    make -s && \
+    make altinstall && \
+    popd && \
+    rm -rf /tmp/python_download && \
+    yum clean all
+# Update the library search path such that the so is found by python.
+ENV LD_LIBRARY_PATH="/opt/Python36/lib:${LD_LIBRARY_PATH}"
+# Install pip packages for Python 3.6.
+RUN /opt/Python36/bin/pip3.6 install six progressbar2 wheel
+
+
+# SSL Fix https://benad.me/blog/2018/07/17/python-3.7-on-centos-6/
+RUN yum -y install perl-core && \ 
+    cd /tmp && \
+    wget 'https://www.openssl.org/source/openssl-1.1.0h.tar.gz' && \
+    tar -xf openssl-1.1.0h.tar.gz && \
+    cd openssl-1.1.0h && \
+    source /opt/rh/devtoolset-7/enable && \
+    ./config shared --prefix=/usr/local/openssl11 --openssldir=/usr/local/openssl11 && make && make install
+# End of SSL fix
+
+# Download and install Python 3.7.
+RUN source /opt/rh/devtoolset-7/enable && \
+    mkdir -p /opt/Python37 && \
+    mkdir -p /tmp/python_download && \
+    pushd /tmp/python_download && \
+    wget -nv 'https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz' && \
+    tar -xzf Python-3.7.4.tgz && \
+    cd Python-3.7.4 && \
+    LDFLAGS="-Wl,-rpath=/usr/local/openssl11/lib" \
+    ./configure --prefix=/opt/Python37/ --enable-shared --with-openssl=/usr/local/openssl11 && \
+    make -s && \
+    make altinstall && \
+    popd && \
+    rm -rf /tmp/python_download && \
+    yum clean all
+# Update the library search path such that the so is found by python.
+ENV LD_LIBRARY_PATH="/opt/Python37/lib:${LD_LIBRARY_PATH}"
+# Install pip packages for Python 3.7.
+RUN /opt/Python37/bin/pip3.7 install six progressbar2 wheel
+
 # Download and install Python 2.7.
 RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \
     source /opt/rh/devtoolset-7/enable && \
     mkdir -p /opt/Python27 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz' && \
-    tar -xzf Python-2.7.13.tgz && \
-    cd Python-2.7.13 && \
+    wget -nv 'https://www.python.org/ftp/python/2.7.15/Python-2.7.15.tgz' && \
+    tar -xzf Python-2.7.15.tgz && \
+    cd Python-2.7.15 && \
     ./configure --prefix=/opt/Python27/ --enable-shared --enable-unicode=ucs4 && \
     make -s && \
     make altinstall && \
