@@ -111,6 +111,26 @@ ENV LD_LIBRARY_PATH="/opt/Python37/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.7.
 RUN /opt/Python37/bin/pip3.7 install six progressbar2 wheel
 
+# Download and install Python 3.8.
+RUN source /opt/rh/devtoolset-7/enable && \
+    mkdir -p /opt/Python38 && \
+    mkdir -p /tmp/python_download && \
+    pushd /tmp/python_download && \
+    wget -nv 'https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz' && \
+    tar -xzf Python-3.8.0.tgz && \
+    cd Python-3.8.0 && \
+    LDFLAGS="-Wl,-rpath=/usr/local/openssl11/lib" \
+    ./configure --prefix=/opt/Python38/ --enable-shared --with-openssl=/usr/local/openssl11 && \
+    make -s && \
+    make altinstall && \
+    popd && \
+    rm -rf /tmp/python_download && \
+    yum clean all
+# Update the library search path such that the so is found by python.
+ENV LD_LIBRARY_PATH="/opt/Python38/lib:${LD_LIBRARY_PATH}"
+# Install pip packages for Python 3.8.
+RUN /opt/Python38/bin/pip3.8 install six progressbar2 wheel
+
 # Download and install Python 2.7.
 RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \
     source /opt/rh/devtoolset-7/enable && \
