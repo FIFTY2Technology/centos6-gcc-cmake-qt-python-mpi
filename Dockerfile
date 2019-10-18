@@ -96,9 +96,9 @@ RUN source /opt/rh/devtoolset-7/enable && \
     mkdir -p /opt/Python37 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz' && \
-    tar -xzf Python-3.7.4.tgz && \
-    cd Python-3.7.4 && \
+    wget -nv 'https://www.python.org/ftp/python/3.7.5/Python-3.7.5.tgz' && \
+    tar -xzf Python-3.7.5.tgz && \
+    cd Python-3.7.5 && \
     LDFLAGS="-Wl,-rpath=/usr/local/openssl11/lib" \
     ./configure --prefix=/opt/Python37/ --enable-shared --with-openssl=/usr/local/openssl11 && \
     make -s && \
