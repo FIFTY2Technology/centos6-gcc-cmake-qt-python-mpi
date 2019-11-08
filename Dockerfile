@@ -63,7 +63,7 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python35/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.5.
-RUN /opt/Python35/bin/pip3.5 install six progressbar2 wheel
+RUN /opt/Python35/bin/pip3.5 install six progressbar2==3.37.1 wheel
 
 # Download and install Python 2.7.
 RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \

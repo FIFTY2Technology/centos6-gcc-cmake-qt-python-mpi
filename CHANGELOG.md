@@ -1,5 +1,9 @@
 
 
+# v1.2
+
+- Pin progressbar2 package to 3.37.1
+
 # v1.1
 
 - Fix for the build on docker hub
