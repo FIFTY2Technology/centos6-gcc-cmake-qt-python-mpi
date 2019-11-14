@@ -1,4 +1,8 @@
 
+# v1.3
+
+- Update Python 2.7 and 3.5
+- Add Python 3.6, 3.7 and 3.8
 
 # v1.2
 
