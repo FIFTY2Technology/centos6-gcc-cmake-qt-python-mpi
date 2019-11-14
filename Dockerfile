@@ -85,7 +85,7 @@ RUN source /opt/rh/devtoolset-7/enable && \
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python36/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.6.
-RUN /opt/Python36/bin/pip3.6 install six progressbar2 wheel
+RUN /opt/Python36/bin/pip3.6 install wheel
 
 
 # SSL Fix https://benad.me/blog/2018/07/17/python-3.7-on-centos-6/
@@ -116,7 +116,7 @@ RUN source /opt/rh/devtoolset-7/enable && \
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python37/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.7.
-RUN /opt/Python37/bin/pip3.7 install six progressbar2 wheel
+RUN /opt/Python37/bin/pip3.7 install wheel
 
 # Download and install Python 3.8.
 RUN source /opt/rh/devtoolset-7/enable && \
@@ -136,7 +136,7 @@ RUN source /opt/rh/devtoolset-7/enable && \
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python38/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.8.
-RUN /opt/Python38/bin/pip3.8 install six progressbar2 wheel
+RUN /opt/Python38/bin/pip3.8 install wheel
 
 # Download and install Python 2.7.
 RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \
