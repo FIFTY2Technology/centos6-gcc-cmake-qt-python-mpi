@@ -2,6 +2,7 @@
 
 function Controller()
 {
+    gui.setSilent(true)
     installer.autoRejectMessageBoxes();
     installer.installationFinished.connect(function()
     {
@@ -11,7 +12,8 @@ function Controller()
 
 Controller.prototype.WelcomePageCallback = function()
 {
-    gui.clickButton(buttons.NextButton);
+    // click delay here because the next button is initially disabled for an instant
+    gui.clickButton(buttons.NextButton, 1000);
 }
 
 Controller.prototype.CredentialsPageCallback = function()
@@ -35,7 +37,7 @@ Controller.prototype.ComponentSelectionPageCallback = function()
     var widget = gui.currentPageWidget();
 
     widget.deselectAll();
-    widget.selectComponent("qt.57.gcc_64");
+    widget.selectComponent("qt.qt5.5126.gcc_64");
 
     gui.clickButton(buttons.NextButton);
 }

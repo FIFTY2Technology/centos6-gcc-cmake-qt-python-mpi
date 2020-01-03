@@ -1,3 +1,6 @@
+# v1.4
+
+- Update Qt from 5.7.1 to 5.12.6 LTS
 
 # v1.3
 

@@ -159,14 +159,14 @@ ENV LD_LIBRARY_PATH="/opt/Python27/lib:${LD_LIBRARY_PATH}"
 RUN /opt/Python27/bin/python2.7 -m ensurepip --upgrade && \
     /opt/Python27/bin/pip2.7 install wheel
 
-# Download and install Qt 5.7.
+# Download and install Qt 5.12.6 LTS.
 ADD qt-installer-noninteractive.qs /tmp/qt_download/script.qs
 RUN yum -y install mesa-libGL-devel fontconfig && \
     mkdir -p /tmp/qt_download && \
     pushd /tmp/qt_download && \
-    wget -nv 'http://download.qt.io/archive/qt/5.7/5.7.1/qt-opensource-linux-x64-5.7.1.run' && \
-    chmod +x ./qt-opensource-linux-x64-5.7.1.run && \
-    ./qt-opensource-linux-x64-5.7.1.run --script ./script.qs -platform minimal && \
+    wget -nv 'http://download.qt.io/archive/qt/5.12/5.12.6/qt-opensource-linux-x64-5.12.6.run' && \
+    chmod +x ./qt-opensource-linux-x64-5.12.6.run && \
+    ./qt-opensource-linux-x64-5.12.6.run --script ./script.qs -platform minimal && \
     popd && \
     rm -rf /tmp/qt_download && \
     yum clean all
