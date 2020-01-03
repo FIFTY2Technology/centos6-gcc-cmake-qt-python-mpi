@@ -166,7 +166,7 @@ RUN yum -y install mesa-libGL-devel fontconfig && \
     pushd /tmp/qt_download && \
     wget -nv 'http://download.qt.io/archive/qt/5.12/5.12.6/qt-opensource-linux-x64-5.12.6.run' && \
     chmod +x ./qt-opensource-linux-x64-5.12.6.run && \
-    ./qt-opensource-linux-x64-5.12.6.run --script ./script.qs -platform minimal && \
+    ./qt-opensource-linux-x64-5.12.6.run --script ./script.qs && \
     popd && \
     rm -rf /tmp/qt_download && \
     yum clean all
