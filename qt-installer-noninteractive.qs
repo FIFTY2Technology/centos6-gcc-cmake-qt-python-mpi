@@ -2,6 +2,7 @@
 
 function Controller()
 {
+    // enable headless mode
     gui.setSilent(true)
     installer.autoRejectMessageBoxes();
     installer.installationFinished.connect(function()
