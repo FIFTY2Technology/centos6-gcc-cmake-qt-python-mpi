@@ -1,4 +1,4 @@
-FROM centos:centos6.6
+FROM centos:centos7.8.2003
 
 # Download essentials for the following commands.
 RUN yum update -y && \
@@ -14,20 +14,20 @@ RUN rpm --rebuilddb && \
 
 # Download and install newer gcc compiler.
 RUN yum -y install centos-release-scl && \
-    yum -y install devtoolset-7-toolchain && \
-    scl enable devtoolset-7 bash && \
+    yum -y install devtoolset-9-toolchain && \
+    scl enable devtoolset-9 bash && \
     yum clean all
 
 # Download and install latest cmake.
 RUN mkdir -p /tmp/cmake_download && \
     pushd /tmp/cmake_download && \
-    wget -nv 'https://github.com/Kitware/CMake/releases/download/v3.14.5/cmake-3.14.5-Linux-x86_64.sh' && \
-    bash cmake-3.14.5-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir && \
+    wget -nv 'https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3-Linux-x86_64.sh' && \
+    bash cmake-3.17.3-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir && \
     popd && \
     rm -rf /tmp/cmake_download
 
 # Download and install mpi.
-RUN source /opt/rh/devtoolset-7/enable && \
+RUN source /opt/rh/devtoolset-9/enable && \
     export current_dir=$pwd && \
     mkdir ${current_dir}/mpich-3.2-install && \
     mkdir -p /tmp/mpi_download && \
@@ -49,13 +49,13 @@ ENV PATH="/mpich-3.2-install/bin:${PATH}"
 RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel libffi libffi-devel
 
 # Download and install Python 3.5.
-RUN source /opt/rh/devtoolset-7/enable && \
+RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python35 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.5.7/Python-3.5.7.tgz' && \
-    tar -xzf Python-3.5.7.tgz && \
-    cd Python-3.5.7 && \
+    wget -nv 'https://www.python.org/ftp/python/3.5.8/Python-3.5.8.tgz' && \
+    tar -xzf Python-3.5.8.tgz && \
+    cd Python-3.5.8 && \
     ./configure --prefix=/opt/Python35/ --enable-shared && \
     make -s && \
     make altinstall && \
@@ -69,13 +69,13 @@ RUN /opt/Python35/bin/pip3.5 install six progressbar2==3.37.1 wheel
 
 
 # Download and install Python 3.6.
-RUN source /opt/rh/devtoolset-7/enable && \
+RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python36 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.6.9/Python-3.6.9.tgz' && \
-    tar -xzf Python-3.6.9.tgz && \
-    cd Python-3.6.9 && \
+    wget -nv 'https://www.python.org/ftp/python/3.6.10/Python-3.6.10.tgz' && \
+    tar -xzf Python-3.6.10.tgz && \
+    cd Python-3.6.10 && \
     ./configure --prefix=/opt/Python36/ --enable-shared && \
     make -s && \
     make altinstall && \
@@ -87,27 +87,15 @@ ENV LD_LIBRARY_PATH="/opt/Python36/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.6.
 RUN /opt/Python36/bin/pip3.6 install wheel
 
-
-# SSL Fix https://benad.me/blog/2018/07/17/python-3.7-on-centos-6/
-RUN yum -y install perl-core && \ 
-    cd /tmp && \
-    wget 'https://www.openssl.org/source/openssl-1.1.0h.tar.gz' && \
-    tar -xf openssl-1.1.0h.tar.gz && \
-    cd openssl-1.1.0h && \
-    source /opt/rh/devtoolset-7/enable && \
-    ./config shared --prefix=/usr/local/openssl11 --openssldir=/usr/local/openssl11 && make && make install
-# End of SSL fix
-
 # Download and install Python 3.7.
-RUN source /opt/rh/devtoolset-7/enable && \
+RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python37 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.7.5/Python-3.7.5.tgz' && \
-    tar -xzf Python-3.7.5.tgz && \
-    cd Python-3.7.5 && \
-    LDFLAGS="-Wl,-rpath=/usr/local/openssl11/lib" \
-    ./configure --prefix=/opt/Python37/ --enable-shared --with-openssl=/usr/local/openssl11 && \
+    wget -nv 'https://www.python.org/ftp/python/3.7.7/Python-3.7.7.tgz' && \
+    tar -xzf Python-3.7.7.tgz && \
+    cd Python-3.7.7 && \
+    ./configure --prefix=/opt/Python37/ --enable-shared && \
     make -s && \
     make altinstall && \
     popd && \
@@ -119,15 +107,14 @@ ENV LD_LIBRARY_PATH="/opt/Python37/lib:${LD_LIBRARY_PATH}"
 RUN /opt/Python37/bin/pip3.7 install wheel
 
 # Download and install Python 3.8.
-RUN source /opt/rh/devtoolset-7/enable && \
+RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python38 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz' && \
-    tar -xzf Python-3.8.0.tgz && \
-    cd Python-3.8.0 && \
-    LDFLAGS="-Wl,-rpath=/usr/local/openssl11/lib" \
-    ./configure --prefix=/opt/Python38/ --enable-shared --with-openssl=/usr/local/openssl11 && \
+    wget -nv 'https://www.python.org/ftp/python/3.8.3/Python-3.8.3.tgz' && \
+    tar -xzf Python-3.8.3.tgz && \
+    cd Python-3.8.3 && \
+    ./configure --prefix=/opt/Python38/ --enable-shared && \
     make -s && \
     make altinstall && \
     popd && \
@@ -138,35 +125,57 @@ ENV LD_LIBRARY_PATH="/opt/Python38/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.8.
 RUN /opt/Python38/bin/pip3.8 install wheel
 
-# Download and install Python 2.7.
-RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel && \
-    source /opt/rh/devtoolset-7/enable && \
-    mkdir -p /opt/Python27 && \
-    mkdir -p /tmp/python_download && \
-    pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/2.7.15/Python-2.7.15.tgz' && \
-    tar -xzf Python-2.7.15.tgz && \
-    cd Python-2.7.15 && \
-    ./configure --prefix=/opt/Python27/ --enable-shared --enable-unicode=ucs4 && \
-    make -s && \
-    make altinstall && \
-    popd && \
-    rm -rf /tmp/python_download && \
-    yum clean all
-# Update the library search path such that the so is found by python.
-ENV LD_LIBRARY_PATH="/opt/Python27/lib:${LD_LIBRARY_PATH}"
-# Install pip packages for Python 2.7.
-RUN /opt/Python27/bin/python2.7 -m ensurepip --upgrade && \
-    /opt/Python27/bin/pip2.7 install wheel
-
 # Download and install Qt 5.12.6 LTS.
-ADD qt-installer-noninteractive.qs /tmp/qt_download/script.qs
-RUN yum -y install mesa-libGL-devel fontconfig && \
+RUN yum -y install which perl fontconfig fontconfig-devel freetype-devel libX11-devel libXext-devel libXfixes-devel libXi-devel libXrender-devel libxcb libxcb-devel xcb-util xcb-util-devel libxkbcommon-devel libxkbcommon-x11-devel mesa-libGL-devel && \
     mkdir -p /tmp/qt_download && \
     pushd /tmp/qt_download && \
-    wget -nv 'http://download.qt.io/archive/qt/5.12/5.12.6/qt-opensource-linux-x64-5.12.6.run' && \
-    chmod +x ./qt-opensource-linux-x64-5.12.6.run && \
-    ./qt-opensource-linux-x64-5.12.6.run --script ./script.qs --platform minimal && \
+    wget -nv 'http://download.qt.io/official_releases/qt/5.15/5.15.0/single/qt-everywhere-src-5.15.0.tar.xz' && \
+    tar -xf qt-everywhere-src-5.15.0.tar.xz && \
+    popd && \
+    mkdir -p /tmp/qt_download/build && \
+    pushd /tmp/qt_download/build && \
+    source /opt/rh/devtoolset-9/enable && \
+    ../qt-everywhere-src-5.15.0/configure -prefix /root/qt_5_15_0 \
+        -opensource -confirm-license -shared \
+        -qt-harfbuzz \
+        -system-freetype \
+        -nomake examples -nomake tests \
+        -skip qt3d \
+        -skip qtactiveqt \
+        -skip qtandroidextras \
+        -skip qtcharts \
+        -skip qtconnectivity \
+        -skip qtdatavis3d \
+        -skip qtdeclarative \
+        -skip qtdoc \
+        -skip qtgamepad \
+        -skip qtgraphicaleffects \
+        -skip qtlocation \
+        -skip qtlottie \
+        -skip qtmultimedia \
+        -skip qtnetworkauth \
+        -skip qtpurchasing \
+        -skip qtquick3d \
+        -skip qtquickcontrols \
+        -skip qtquickcontrols2 \
+        -skip qtquicktimeline \
+        -skip qtremoteobjects \
+        -skip qtscript \
+        -skip qtscxml \
+        -skip qtsensors \
+        -skip qtserialbus \
+        -skip qtserialport \
+        -skip qtspeech \
+        -skip qttools \
+        -skip qtvirtualkeyboard \
+        -skip qtwebchannel \
+        -skip qtwebengine \
+        -skip qtwebglplugin \
+        -skip qtwebsockets \
+        -skip qtwebview \
+        -skip qtxmlpatterns && \
+    make -s && \
+    make install && \
     popd && \
     rm -rf /tmp/qt_download && \
     yum clean all
