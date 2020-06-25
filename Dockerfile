@@ -85,7 +85,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python36/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.6.
-RUN /opt/Python36/bin/pip3.6 install wheel
+RUN /opt/Python36/bin/pip3.6 install six progressbar2==3.37.1 wheel
 
 # Download and install Python 3.7.
 RUN source /opt/rh/devtoolset-9/enable && \
@@ -104,7 +104,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python37/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.7.
-RUN /opt/Python37/bin/pip3.7 install wheel
+RUN /opt/Python37/bin/pip3.7 install six progressbar2==3.37.1 wheel
 
 # Download and install Python 3.8.
 RUN source /opt/rh/devtoolset-9/enable && \
@@ -123,7 +123,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
 # Update the library search path such that the so is found by python.
 ENV LD_LIBRARY_PATH="/opt/Python38/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.8.
-RUN /opt/Python38/bin/pip3.8 install wheel
+RUN /opt/Python38/bin/pip3.8 install six progressbar2==3.37.1 wheel
 
 # Download and install Qt 5.12.6 LTS.
 RUN yum -y install which perl fontconfig fontconfig-devel freetype-devel libX11-devel libXext-devel libXfixes-devel libXi-devel libXrender-devel libxcb libxcb-devel xcb-util xcb-util-devel libxkbcommon-devel libxkbcommon-x11-devel mesa-libGL-devel && \
