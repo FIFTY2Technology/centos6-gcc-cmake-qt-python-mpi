@@ -14,7 +14,7 @@ RUN rpm --rebuilddb && \
 
 # Download and install newer gcc compiler.
 RUN yum -y install centos-release-scl && \
-    yum -y install devtoolset-9-toolchain && \
+    yum -y install devtoolset-9-toolchain-9.1 && \
     scl enable devtoolset-9 bash && \
     yum clean all
 
