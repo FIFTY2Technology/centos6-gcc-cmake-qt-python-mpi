@@ -126,7 +126,28 @@ ENV LD_LIBRARY_PATH="/opt/Python38/lib:${LD_LIBRARY_PATH}"
 RUN /opt/Python38/bin/pip3.8 install six progressbar2==3.37.1 wheel
 
 # Download and install Qt 5.12.6 LTS.
-RUN yum -y install which perl fontconfig fontconfig-devel freetype-devel libX11-devel libXext-devel libXfixes-devel libXi-devel libXrender-devel libxcb libxcb-devel xcb-util xcb-util-devel libxkbcommon-devel libxkbcommon-x11-devel mesa-libGL-devel && \
+RUN yum -y install \
+        which \
+        perl \
+        fontconfig \
+        fontconfig-devel \
+        freetype-devel \
+        libX11-devel \
+        libXext-devel \
+        libXfixes-devel \
+        libXi-devel \
+        libXrender-devel \
+        libxcb \
+        libxcb-devel \
+        xcb-util-devel \
+        xcb-util-image-devel \
+        xcb-util-keysyms-devel \
+        xcb-util-renderutil-devel \
+        xcb-util-wm-devel \
+        libxkbcommon-devel \
+        libxkbcommon-x11-devel \
+        mesa-libGL-devel \
+        && \
     mkdir -p /tmp/qt_download && \
     pushd /tmp/qt_download && \
     wget -nv 'http://download.qt.io/official_releases/qt/5.15/5.15.0/single/qt-everywhere-src-5.15.0.tar.xz' && \
@@ -138,6 +159,7 @@ RUN yum -y install which perl fontconfig fontconfig-devel freetype-devel libX11-
     ../qt-everywhere-src-5.15.0/configure -prefix /root/qt_5_15_0 \
         -opensource -confirm-license -shared \
         -qt-harfbuzz \
+        -xcb -xcb-xlib -bundled-xcb-xinput \
         -system-freetype \
         -nomake examples -nomake tests \
         -skip qt3d \
