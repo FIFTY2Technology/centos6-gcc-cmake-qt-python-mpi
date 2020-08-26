@@ -125,7 +125,7 @@ ENV LD_LIBRARY_PATH="/opt/Python38/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.8.
 RUN /opt/Python38/bin/pip3.8 install six progressbar2==3.37.1 wheel
 
-# Download and install Qt 5.12.6 LTS.
+# Download and install Qt 5.15 LTS.
 RUN yum -y install \
         which \
         perl \
