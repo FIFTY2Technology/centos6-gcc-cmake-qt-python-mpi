@@ -202,3 +202,7 @@ RUN yum -y install \
     popd && \
     rm -rf /tmp/qt_download && \
     yum clean all
+
+# Finally, we need lsb_release and git for our cmake file.
+RUN yum -y install redhat-lsb-core git && \
+    yum clean all
