@@ -1,4 +1,4 @@
-# v1.4.1
+# v1.4.2
 
 - Update CentOS base image form 6.6 to 7.8
 - Update devtoolset from Version 7 to 9
