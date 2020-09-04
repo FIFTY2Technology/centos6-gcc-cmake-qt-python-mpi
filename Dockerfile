@@ -161,6 +161,7 @@ RUN yum -y install \
         -qt-harfbuzz \
         -xcb -xcb-xlib -bundled-xcb-xinput \
         -system-freetype \
+        -qt-libpng \
         -nomake examples -nomake tests \
         -skip qt3d \
         -skip qtactiveqt \
@@ -200,8 +201,4 @@ RUN yum -y install \
     make install && \
     popd && \
     rm -rf /tmp/qt_download && \
-    yum clean all
-
-# Finally, we need lsb_release and git for our cmake file.
-RUN yum -y install redhat-lsb-core git && \
     yum clean all
