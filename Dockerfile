@@ -14,8 +14,8 @@ RUN rpm --rebuilddb && \
 
 # Download and install newer gcc compiler.
 RUN yum -y install centos-release-scl && \
-    yum -y install devtoolset-9-toolchain-9.1 && \
-    scl enable devtoolset-9 bash && \
+    yum -y install devtoolset-7-toolchain && \
+    scl enable devtoolset-7 bash && \
     yum clean all
 
 # Download and install latest cmake.
@@ -27,7 +27,7 @@ RUN mkdir -p /tmp/cmake_download && \
     rm -rf /tmp/cmake_download
 
 # Download and install mpi.
-RUN source /opt/rh/devtoolset-9/enable && \
+RUN source /opt/rh/devtoolset-7/enable && \
     export current_dir=$pwd && \
     mkdir ${current_dir}/mpich-3.2-install && \
     mkdir -p /tmp/mpi_download && \
@@ -49,7 +49,7 @@ ENV PATH="/mpich-3.2-install/bin:${PATH}"
 RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel libffi libffi-devel
 
 # Download and install Python 3.5.
-RUN source /opt/rh/devtoolset-9/enable && \
+RUN source /opt/rh/devtoolset-7/enable && \
     mkdir -p /opt/Python35 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
@@ -69,7 +69,7 @@ RUN /opt/Python35/bin/pip3.5 install six progressbar2==3.37.1 wheel
 
 
 # Download and install Python 3.6.
-RUN source /opt/rh/devtoolset-9/enable && \
+RUN source /opt/rh/devtoolset-7/enable && \
     mkdir -p /opt/Python36 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
@@ -88,7 +88,7 @@ ENV LD_LIBRARY_PATH="/opt/Python36/lib:${LD_LIBRARY_PATH}"
 RUN /opt/Python36/bin/pip3.6 install six progressbar2==3.37.1 wheel
 
 # Download and install Python 3.7.
-RUN source /opt/rh/devtoolset-9/enable && \
+RUN source /opt/rh/devtoolset-7/enable && \
     mkdir -p /opt/Python37 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
@@ -107,7 +107,7 @@ ENV LD_LIBRARY_PATH="/opt/Python37/lib:${LD_LIBRARY_PATH}"
 RUN /opt/Python37/bin/pip3.7 install six progressbar2==3.37.1 wheel
 
 # Download and install Python 3.8.
-RUN source /opt/rh/devtoolset-9/enable && \
+RUN source /opt/rh/devtoolset-7/enable && \
     mkdir -p /opt/Python38 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
@@ -155,7 +155,7 @@ RUN yum -y install \
     popd && \
     mkdir -p /tmp/qt_download/build && \
     pushd /tmp/qt_download/build && \
-    source /opt/rh/devtoolset-9/enable && \
+    source /opt/rh/devtoolset-7/enable && \
     ../qt-everywhere-src-5.15.0/configure -prefix /root/qt_5_15_0 \
         -opensource -confirm-license -shared \
         -qt-harfbuzz \

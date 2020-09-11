@@ -1,7 +1,6 @@
-# v1.4.2
+# v1.4.3
 
-- Update CentOS base image form 6.6 to 7.8
-- Update devtoolset from Version 7 to 9
+- Update CentOS base image from 6.6 to 7.8
 - Update Qt from 5.7.1 binary install to 5.15.0 built from source
 - Update CMake from 3.14.5 to 3.17.3
 - Remove Python 2.7
