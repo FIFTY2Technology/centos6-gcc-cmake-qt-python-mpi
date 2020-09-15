@@ -1,4 +1,4 @@
-# v1.4.2
+# v1.4.3
 
 - Update CentOS base image form 6.6 to 7.8
 - Update devtoolset from Version 7 to 9
@@ -9,6 +9,7 @@
 - Update Python 3.6.9 to 3.6.10
 - Update Python 3.7.5 to 3.7.7
 - Update Python 3.8.0 to 3.8.3
+- Use optimized Python build
 - Removed OpenSSL build on top of the system version since to CentOS 7 provides a version sufficient for Python 3.7 and 3.8
 
 # v1.3

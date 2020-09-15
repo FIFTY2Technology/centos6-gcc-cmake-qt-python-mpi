@@ -56,7 +56,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
     wget -nv 'https://www.python.org/ftp/python/3.5.8/Python-3.5.8.tgz' && \
     tar -xzf Python-3.5.8.tgz && \
     cd Python-3.5.8 && \
-    ./configure --prefix=/opt/Python35/ --enable-shared && \
+    ./configure --prefix=/opt/Python35/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -76,7 +76,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
     wget -nv 'https://www.python.org/ftp/python/3.6.10/Python-3.6.10.tgz' && \
     tar -xzf Python-3.6.10.tgz && \
     cd Python-3.6.10 && \
-    ./configure --prefix=/opt/Python36/ --enable-shared && \
+    ./configure --prefix=/opt/Python36/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -95,7 +95,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
     wget -nv 'https://www.python.org/ftp/python/3.7.7/Python-3.7.7.tgz' && \
     tar -xzf Python-3.7.7.tgz && \
     cd Python-3.7.7 && \
-    ./configure --prefix=/opt/Python37/ --enable-shared && \
+    ./configure --prefix=/opt/Python37/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -114,7 +114,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
     wget -nv 'https://www.python.org/ftp/python/3.8.3/Python-3.8.3.tgz' && \
     tar -xzf Python-3.8.3.tgz && \
     cd Python-3.8.3 && \
-    ./configure --prefix=/opt/Python38/ --enable-shared && \
+    ./configure --prefix=/opt/Python38/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
