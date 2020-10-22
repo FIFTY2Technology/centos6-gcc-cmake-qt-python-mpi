@@ -125,6 +125,23 @@ ENV LD_LIBRARY_PATH="/opt/Python38/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.8.
 RUN /opt/Python38/bin/pip3.8 install six progressbar2==3.37.1 wheel
 
+# Download and install ICU
+RUN source /opt/rh/devtoolset-9/enable && \
+    mkdir -p /opt/icu && \
+    mkdir -p /tmp/icu_download && \
+    pushd /tmp/icu_download && \
+    wget -nv 'https://github.com/unicode-org/icu/releases/download/release-56-2/icu4c-56_2-src.tgz' && \
+    tar -xzf icu4c-56_2-src.tgz && \
+    cd icu/source && \
+    chmod +x runConfigureICU configure install-sh && \
+    ./runConfigureICU Linux --prefix=/opt/icu && \
+    gmake && \
+    gmake check && \
+    gmake install && \
+    popd && \
+    rm -rf /tmp/icu_download && \
+    yum clean all
+
 # Download and install Qt 5.15 LTS.
 RUN yum -y install \
         which \
@@ -156,7 +173,7 @@ RUN yum -y install \
     mkdir -p /tmp/qt_download/build && \
     pushd /tmp/qt_download/build && \
     source /opt/rh/devtoolset-9/enable && \
-    ../qt-everywhere-src-5.15.0/configure -prefix /root/qt_5_15_0 \
+    LD_LIBRARY_PATH=/opt/icu/lib PKG_CONFIG_PATH=/opt/icu/config ../qt-everywhere-src-5.15.0/configure -prefix /root/qt_5_15_0 \
         -opensource -confirm-license -shared \
         -qt-harfbuzz \
         -xcb -xcb-xlib -bundled-xcb-xinput \
@@ -196,11 +213,21 @@ RUN yum -y install \
         -skip qtwebglplugin \
         -skip qtwebsockets \
         -skip qtwebview \
-        -skip qtxmlpatterns && \
-    make -s && \
+        -skip qtxmlpatterns \
+        -icu -I /opt/icu/include -L /opt/icu/lib && \
+    LD_LIBRARY_PATH=/opt/icu/lib make -s && \
     make install && \
     popd && \
     rm -rf /tmp/qt_download && \
+    yum clean all
+
+# Move the ICU binaries over to the Qt libs and make sure libQt5Core finds them.
+RUN cp /opt/icu/lib/libicu* /root/qt_5_15_0/lib/ && \
+    yum -y install epel-release && \
+    yum -y install patchelf && \
+    patchelf --set-rpath '$ORIGIN' /root/qt_5_15_0/lib/libQt5Core.so.5.15.0 && \
+    yum -y remove patchelf && \
+    yum -y remove epel-release && \
     yum clean all
 
 # Finally, we need lsb_release and git for our cmake file.
