@@ -167,13 +167,13 @@ RUN yum -y install \
         && \
     mkdir -p /tmp/qt_download && \
     pushd /tmp/qt_download && \
-    wget -nv 'http://download.qt.io/official_releases/qt/5.15/5.15.0/single/qt-everywhere-src-5.15.0.tar.xz' && \
-    tar -xf qt-everywhere-src-5.15.0.tar.xz && \
+    wget -nv 'http://download.qt.io/official_releases/qt/5.15/5.15.1/single/qt-everywhere-src-5.15.1.tar.xz' && \
+    tar -xf qt-everywhere-src-5.15.1.tar.xz && \
     popd && \
     mkdir -p /tmp/qt_download/build && \
     pushd /tmp/qt_download/build && \
     source /opt/rh/devtoolset-9/enable && \
-    LD_LIBRARY_PATH=/opt/icu/lib PKG_CONFIG_PATH=/opt/icu/config ../qt-everywhere-src-5.15.0/configure -prefix /root/qt_5_15_0 \
+    LD_LIBRARY_PATH=/opt/icu/lib PKG_CONFIG_PATH=/opt/icu/config ../qt-everywhere-src-5.15.1/configure -prefix /root/qt_5_15_1 \
         -opensource -confirm-license -shared \
         -qt-harfbuzz \
         -xcb -xcb-xlib -bundled-xcb-xinput \
@@ -222,10 +222,10 @@ RUN yum -y install \
     yum clean all
 
 # Move the ICU binaries over to the Qt libs and make sure libQt5Core finds them.
-RUN cp /opt/icu/lib/libicu* /root/qt_5_15_0/lib/ && \
+RUN cp /opt/icu/lib/libicu* /root/qt_5_15_1/lib/ && \
     yum -y install epel-release && \
     yum -y install patchelf && \
-    patchelf --set-rpath '$ORIGIN' /root/qt_5_15_0/lib/libQt5Core.so.5.15.0 && \
+    patchelf --set-rpath '$ORIGIN' /root/qt_5_15_1/lib/libQt5Core.so.5.15.1 && \
     yum -y remove patchelf && \
     yum -y remove epel-release && \
     yum clean all
