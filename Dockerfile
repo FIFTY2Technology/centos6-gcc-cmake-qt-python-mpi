@@ -230,6 +230,10 @@ RUN cp /opt/icu/lib/libicu* /root/qt_5_15_0/lib/ && \
     yum -y remove epel-release && \
     yum clean all
 
+# Add additional tools to the image
+RUN yum -y install autoconf automake libtool && \
+    yum clean all
+
 # Finally, we need lsb_release and git for our cmake file.
 RUN yum -y install redhat-lsb-core git && \
     yum clean all
