@@ -56,7 +56,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
     wget -nv 'https://www.python.org/ftp/python/3.5.10/Python-3.5.10.tgz' && \
     tar -xzf Python-3.5.10.tgz && \
     cd Python-3.5.10 && \
-    ./configure --prefix=/opt/Python35/ --enable-shared && \
+    ./configure --prefix=/opt/Python35/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -76,7 +76,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
     wget -nv 'https://www.python.org/ftp/python/3.6.12/Python-3.6.12.tgz' && \
     tar -xzf Python-3.6.12.tgz && \
     cd Python-3.6.12 && \
-    ./configure --prefix=/opt/Python36/ --enable-shared && \
+    ./configure --prefix=/opt/Python36/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -95,7 +95,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
     wget -nv 'https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz' && \
     tar -xzf Python-3.7.9.tgz && \
     cd Python-3.7.9 && \
-    ./configure --prefix=/opt/Python37/ --enable-shared && \
+    ./configure --prefix=/opt/Python37/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -114,7 +114,7 @@ RUN source /opt/rh/devtoolset-9/enable && \
     wget -nv 'https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz' && \
     tar -xzf Python-3.8.6.tgz && \
     cd Python-3.8.6 && \
-    ./configure --prefix=/opt/Python38/ --enable-shared && \
+    ./configure --prefix=/opt/Python38/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -124,6 +124,26 @@ RUN source /opt/rh/devtoolset-9/enable && \
 ENV LD_LIBRARY_PATH="/opt/Python38/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.8.
 RUN /opt/Python38/bin/pip3.8 install six progressbar2==3.37.1 wheel
+
+# Download and install Python 3.9.
+RUN source /opt/rh/devtoolset-9/enable && \
+    mkdir -p /opt/Python39 && \
+    mkdir -p /tmp/python_download && \
+    pushd /tmp/python_download && \
+    wget -nv 'https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz' && \
+    tar -xzf Python-3.9.1.tgz && \
+    cd Python-3.9.1 && \
+    ./configure --prefix=/opt/Python39/ --enable-shared --enable-optimizations && \
+    make -s && \
+    make altinstall && \
+    popd && \
+    rm -rf /tmp/python_download && \
+    yum clean all
+# Update the library search path such that the so is found by python.
+ENV LD_LIBRARY_PATH="/opt/Python39/lib:${LD_LIBRARY_PATH}"
+# Install pip packages for Python 3.9.
+RUN /opt/Python39/bin/pip3.9 install six progressbar2==3.37.1 wheel
+
 
 # Download and install ICU
 RUN source /opt/rh/devtoolset-9/enable && \
