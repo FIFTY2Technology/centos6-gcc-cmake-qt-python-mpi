@@ -53,9 +53,9 @@ RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python35 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.5.8/Python-3.5.8.tgz' && \
-    tar -xzf Python-3.5.8.tgz && \
-    cd Python-3.5.8 && \
+    wget -nv 'https://www.python.org/ftp/python/3.5.10/Python-3.5.10.tgz' && \
+    tar -xzf Python-3.5.10.tgz && \
+    cd Python-3.5.10 && \
     ./configure --prefix=/opt/Python35/ --enable-shared && \
     make -s && \
     make altinstall && \
@@ -73,9 +73,9 @@ RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python36 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.6.10/Python-3.6.10.tgz' && \
-    tar -xzf Python-3.6.10.tgz && \
-    cd Python-3.6.10 && \
+    wget -nv 'https://www.python.org/ftp/python/3.6.12/Python-3.6.12.tgz' && \
+    tar -xzf Python-3.6.12.tgz && \
+    cd Python-3.6.12 && \
     ./configure --prefix=/opt/Python36/ --enable-shared && \
     make -s && \
     make altinstall && \
@@ -92,9 +92,9 @@ RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python37 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.7.7/Python-3.7.7.tgz' && \
-    tar -xzf Python-3.7.7.tgz && \
-    cd Python-3.7.7 && \
+    wget -nv 'https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz' && \
+    tar -xzf Python-3.7.9.tgz && \
+    cd Python-3.7.9 && \
     ./configure --prefix=/opt/Python37/ --enable-shared && \
     make -s && \
     make altinstall && \
@@ -111,9 +111,9 @@ RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python38 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.8.3/Python-3.8.3.tgz' && \
-    tar -xzf Python-3.8.3.tgz && \
-    cd Python-3.8.3 && \
+    wget -nv 'https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz' && \
+    tar -xzf Python-3.8.6.tgz && \
+    cd Python-3.8.6 && \
     ./configure --prefix=/opt/Python38/ --enable-shared && \
     make -s && \
     make altinstall && \
