@@ -1,6 +1,7 @@
 # v1.5
 
 - Install more build tools
+- Update Qt from 5.15.0 to 5.15.2
 
 # v1.4.3
 
