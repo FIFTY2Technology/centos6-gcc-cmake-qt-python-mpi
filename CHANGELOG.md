@@ -1,3 +1,11 @@
+# v1.5
+
+- Install more build tools
+- Update Qt from 5.15.0 to 5.15.2
+- Update Python interpreters
+- Add Python 3.9
+- Use optimizations for Python
+
 # v1.4.3
 
 - Update CentOS base image form 6.6 to 7.8

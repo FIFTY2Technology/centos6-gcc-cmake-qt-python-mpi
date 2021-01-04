@@ -53,10 +53,10 @@ RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python35 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.5.8/Python-3.5.8.tgz' && \
-    tar -xzf Python-3.5.8.tgz && \
-    cd Python-3.5.8 && \
-    ./configure --prefix=/opt/Python35/ --enable-shared && \
+    wget -nv 'https://www.python.org/ftp/python/3.5.10/Python-3.5.10.tgz' && \
+    tar -xzf Python-3.5.10.tgz && \
+    cd Python-3.5.10 && \
+    ./configure --prefix=/opt/Python35/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -73,10 +73,10 @@ RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python36 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.6.10/Python-3.6.10.tgz' && \
-    tar -xzf Python-3.6.10.tgz && \
-    cd Python-3.6.10 && \
-    ./configure --prefix=/opt/Python36/ --enable-shared && \
+    wget -nv 'https://www.python.org/ftp/python/3.6.12/Python-3.6.12.tgz' && \
+    tar -xzf Python-3.6.12.tgz && \
+    cd Python-3.6.12 && \
+    ./configure --prefix=/opt/Python36/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -92,10 +92,10 @@ RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python37 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.7.7/Python-3.7.7.tgz' && \
-    tar -xzf Python-3.7.7.tgz && \
-    cd Python-3.7.7 && \
-    ./configure --prefix=/opt/Python37/ --enable-shared && \
+    wget -nv 'https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz' && \
+    tar -xzf Python-3.7.9.tgz && \
+    cd Python-3.7.9 && \
+    ./configure --prefix=/opt/Python37/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -111,10 +111,10 @@ RUN source /opt/rh/devtoolset-9/enable && \
     mkdir -p /opt/Python38 && \
     mkdir -p /tmp/python_download && \
     pushd /tmp/python_download && \
-    wget -nv 'https://www.python.org/ftp/python/3.8.3/Python-3.8.3.tgz' && \
-    tar -xzf Python-3.8.3.tgz && \
-    cd Python-3.8.3 && \
-    ./configure --prefix=/opt/Python38/ --enable-shared && \
+    wget -nv 'https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz' && \
+    tar -xzf Python-3.8.6.tgz && \
+    cd Python-3.8.6 && \
+    ./configure --prefix=/opt/Python38/ --enable-shared --enable-optimizations && \
     make -s && \
     make altinstall && \
     popd && \
@@ -124,6 +124,26 @@ RUN source /opt/rh/devtoolset-9/enable && \
 ENV LD_LIBRARY_PATH="/opt/Python38/lib:${LD_LIBRARY_PATH}"
 # Install pip packages for Python 3.8.
 RUN /opt/Python38/bin/pip3.8 install six progressbar2==3.37.1 wheel
+
+# Download and install Python 3.9.
+RUN source /opt/rh/devtoolset-9/enable && \
+    mkdir -p /opt/Python39 && \
+    mkdir -p /tmp/python_download && \
+    pushd /tmp/python_download && \
+    wget -nv 'https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz' && \
+    tar -xzf Python-3.9.1.tgz && \
+    cd Python-3.9.1 && \
+    ./configure --prefix=/opt/Python39/ --enable-shared --enable-optimizations && \
+    make -s && \
+    make altinstall && \
+    popd && \
+    rm -rf /tmp/python_download && \
+    yum clean all
+# Update the library search path such that the so is found by python.
+ENV LD_LIBRARY_PATH="/opt/Python39/lib:${LD_LIBRARY_PATH}"
+# Install pip packages for Python 3.9.
+RUN /opt/Python39/bin/pip3.9 install six progressbar2==3.37.1 wheel
+
 
 # Download and install ICU
 RUN source /opt/rh/devtoolset-9/enable && \
@@ -167,13 +187,13 @@ RUN yum -y install \
         && \
     mkdir -p /tmp/qt_download && \
     pushd /tmp/qt_download && \
-    wget -nv 'http://download.qt.io/official_releases/qt/5.15/5.15.0/single/qt-everywhere-src-5.15.0.tar.xz' && \
-    tar -xf qt-everywhere-src-5.15.0.tar.xz && \
+    wget -nv 'http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz' && \
+    tar -xf qt-everywhere-src-5.15.2.tar.xz && \
     popd && \
     mkdir -p /tmp/qt_download/build && \
     pushd /tmp/qt_download/build && \
     source /opt/rh/devtoolset-9/enable && \
-    LD_LIBRARY_PATH=/opt/icu/lib PKG_CONFIG_PATH=/opt/icu/config ../qt-everywhere-src-5.15.0/configure -prefix /root/qt_5_15_0 \
+    LD_LIBRARY_PATH=/opt/icu/lib PKG_CONFIG_PATH=/opt/icu/config ../qt-everywhere-src-5.15.2/configure -prefix /root/qt_5_15_2 \
         -opensource -confirm-license -shared \
         -qt-harfbuzz \
         -xcb -xcb-xlib -bundled-xcb-xinput \
@@ -222,12 +242,16 @@ RUN yum -y install \
     yum clean all
 
 # Move the ICU binaries over to the Qt libs and make sure libQt5Core finds them.
-RUN cp /opt/icu/lib/libicu* /root/qt_5_15_0/lib/ && \
+RUN cp /opt/icu/lib/libicu* /root/qt_5_15_2/lib/ && \
     yum -y install epel-release && \
     yum -y install patchelf && \
-    patchelf --set-rpath '$ORIGIN' /root/qt_5_15_0/lib/libQt5Core.so.5.15.0 && \
+    patchelf --set-rpath '$ORIGIN' /root/qt_5_15_2/lib/libQt5Core.so.5.15.2 && \
     yum -y remove patchelf && \
     yum -y remove epel-release && \
+    yum clean all
+
+# Add additional tools to the image
+RUN yum -y install autoconf automake libtool && \
     yum clean all
 
 # Finally, we need lsb_release and git for our cmake file.
