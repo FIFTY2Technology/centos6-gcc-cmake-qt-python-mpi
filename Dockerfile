@@ -21,8 +21,8 @@ RUN yum -y install centos-release-scl && \
 # Download and install latest cmake.
 RUN mkdir -p /tmp/cmake_download && \
     pushd /tmp/cmake_download && \
-    wget -nv 'https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3-Linux-x86_64.sh' && \
-    bash cmake-3.17.3-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir && \
+    wget -nv 'https://github.com/Kitware/CMake/releases/download/v3.21.1/cmake-3.21.1-linux-x86_64.sh' && \
+    bash cmake-3.21.1-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir && \
     popd && \
     rm -rf /tmp/cmake_download
 
